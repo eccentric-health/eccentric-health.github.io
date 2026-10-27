@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sudden cardiac death</title>
+<meta name="description" content="Collaboration process, data requirements, and model access for sudden cardiac death research.">
+<link rel="canonical" href="https://eccentric-health.github.io/scd-replication/">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#protocol">Skip to protocol</a>
+<div class="shell">
+<header>
+<a class="project" href="./">Sudden cardiac death</a>
+<nav aria-label="Project links"><a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx">Access form</a><a href="https://github.com/zobermeyer/re-ecg-scd">Collaboration code</a><a href="mailto:ziadoo@gmail.com?subject=SCD%20model%20access">Contact</a></nav>
+</header>
+<main id="protocol">
+<p>We want to learn whether our electrocardiogram (ECG) model identifies people at higher risk of sudden cardiac death (SCD) in new populations, how it predicts other outcomes related to SCD, and what these predictions can teach us about the underlying anatomy and physiology of SCD.</p>
+<h2>1 Data: sample and outcomes</h2>
+<p><strong>Sample.</strong> It would be nice to get an approximate sense of the sample you have available:</p>
+<ul>
+<li><p>Population, how they were sampled (inclusion criteria), years covered</p>
+</li>
+<li><p>Numbers of people and ECGs, and the age and sex mix</p>
+</li>
+</ul>
+<p><strong>Design</strong>. Ideally, for population-based outcomes (e.g., death certificates, diagnosis codes, etc.) we’d use a <u>full population based sample</u>: for example, all patients with ECGs collected over a fixed time period in a population or health system. For more focused studies, we can use the subset of <u>patients who had a diagnostic test</u> (e.g., all patients who had a cardiac MRI or an endomyocardial biopsy, linked to their ECGs) or <u>patients with a defibrillator</u> (e.g., appropriate shocks), accounting for the fact that this is a very selected sample and that estimates will not generalize to the full population. Case series or case-control designs are also possible, if it’s a particularly interesting question where a full census of some population is not feasible (e.g., investigating ECG-predicted risk in a small number of young athletes who experienced SCD). &#x20;</p>
+<p>Our analysis happens at the level of the ECG, and accounts for repeated recordings from the same patient when calculating uncertainty (clustering by patient), as in the <a href="https://www.nature.com/articles/s41586-026-10674-6">original paper</a>.</p>
+<p><strong>Outcomes.</strong> No definition of SCD is perfect, and each dataset has its own advantages and disadvantages. We’ll choose the main outcome your records can support: e.g., death-certificate SCD, death from any cause, ventricular tachycardia/fibrillation, cardiac arrest, or defibrillator therapy. We need to establish:</p>
+<ul>
+<li><p>Definitions and event dates available in clinical records, registries or autopsy findings</p>
+</li>
+<li><p>Follow-up from each ECG, including when it ends, how events outside the hospital are captured, and how to handle missing follow-up</p>
+</li>
+</ul>
+<p>We’ll use 12-month outcomes where possible. Other analyses could cover different time periods, changes across repeated ECGs, imaging and physiological measurements.</p>
+<p>The published Swedish SCD definition combines one qualifying cause below <strong>and</strong> the location/timing rule.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Definition component</th>
+<th>Published rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Heart disease cause</td>
+<td>ICD-10 I00–I09, I11, or I20–I51</td>
+</tr>
+<tr>
+<td>Congenital heart disease cause</td>
+<td>ICD-10 Q20–Q24</td>
+</tr>
+<tr>
+<td>Ill-defined cause</td>
+<td>ICD-10 R95–R99</td>
+</tr>
+<tr>
+<td>Location and timing</td>
+<td>Death outside hospital or within the first 24 hours of hospital admission</td>
+</tr>
+</tbody></table></div>
+<p>The definition comes from <a href="https://media.springernature.com/original/springer-static/esm/art%3A10.1038%2Fs41586-026-10674-6/MediaObjects/41586_2026_10674_MOESM1_ESM.docx">Nature supplementary information, section VII.B</a>.&#x20;</p>
+<h2>2 Data: ECGs</h2>
+<p>ECGs can be in any format - XML, EDF, CSV, PDF or scans. If we need to do conversion, we need the recording system, lead labels, units, recording length and whether the leads were recorded at the same time. It’s pretty easy to convert the ECGs into the model’s input format and prepare a linked clinical CSV with clearly explained columns.</p>
+<p>The model takes as input a numerical array with <strong>12 rows × 5,000 samples</strong>: ten seconds at <strong>500 measurements per second (500 Hz)</strong>, in <strong>millivolts</strong>. The lead order is I, II, III, aVR, aVL, aVF, V1–V6. It uses waveforms alone; the <a href="https://github.com/alexmschubert/ECG-SCD/blob/main/src/ekg_scd/datasets.py">reference reader</a> loads NumPy <code>.npy</code> files. Conversion needs to account for sampling rate, units, lead order and any recorded −aVR sign. For PDFs, scans or short recordings, we’ll check which signals and time segments are present and assess any digitization or reconstruction needed. If needed, for shorter recordings (e.g., 2.5 seconds per lead) we can retrain our model or use median beats.&#x20;</p>
+<h2>3 Model</h2>
+<p><strong>Access.</strong> It’s easy to give your team access to the model. The only thing we need is a record of who is using the model and a signed form or written assent to responsible research use. Note this doesn’t need to be an institutional agreement - we’re happy with you as an individual committing to noncommercial use, keeping the model secure, and limits on sharing and reuse. The <a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx">blank research agreement</a> is the easiest way to do this, but whatever you’re comfortable with (e.g., an email) is also fine. Each person using the model agrees to these terms. Once we’ve filed your completed form or email assent to these terms and have your GitHub usernames, we’ll provide full model access through a private Git repository.</p>
+<p>We’ll use <a href="https://github.com/zobermeyer/re-ecg-scd">re-ecg-scd</a> for shared code and approved summary results. Model-guided recruitment, return of results or clinical use requires separate written authorization.</p>
+<p><strong>Computing.</strong> We’d prefer if the ECGs never leave your health system infrastructure: it’s much easier to get the model in than to get data out. So we’d like to know anything you can share about your computing environment - where the ECGs live or where they can be placed within the health system infrastructure: CPU or GPU, memory and storage, and whether you’ll use local or cloud computing. Options include your existing workstation or server, an institution-approved virtual machine, or an approved cloud environment. We’ll test a small batch to check that the model runs correctly and establish memory needs and running time.</p>
+<p><strong>Checks.</strong> The first step is to make sure the model is reading the ECGs correctly by performing a few checks:</p>
+<ul>
+<li><p>Signal quality, lead identity and direction, and units</p>
+</li>
+<li><p>Record matching and sample counts</p>
+</li>
+<li><p>Reference predictions, score distributions and repeatability</p>
+</li>
+</ul>
+<p>We can compare sex predictions with Swedish benchmarks supplied by Alex and add age prediction if a compatible model is available. Further analyses could examine aVL features using the <a href="https://github.com/alexmschubert/ECG-SCD">public implementation</a>.</p>
+<h2>4 IRB and regulatory requirements</h2>
+<p>For a retrospective study of routinely-collected data, IRB approval is required but usually quite straightforward, since patient records, ECGs, identifiers and individual predictions will stay in the approved environment (the only thing that leaves is approved summary results and code). We can help adapt our existing study materials for your local ethics committee or institutional review board (IRB).&#x20;</p>
+<h2>5 Later: Prospective study and AI clinic</h2>
+<p><strong>Prospective study.</strong> A starting design would invite higher- and lower-risk participants for the same baseline assessment, 14-day ECG monitoring and cardiac ultrasound, with two-year follow-up through clinical and mortality records. We need to agree:</p>
+<ul>
+<li><p>Main rhythm outcome, sample size and event review</p>
+</li>
+<li><p>Communication of important findings</p>
+</li>
+<li><p>Staffing and test costs</p>
+</li>
+</ul>
+<p>The <a href="https://docs.google.com/document/d/1ZXXfyvIsWazKcvVFrwcbi3JxXN-NvpyChcIMkyNJTAM/edit?usp=drivesdk">US protocol draft</a> and <a href="https://docs.google.com/document/d/1M_iwCxzAgqjB4-tpM0ZNYvhIjKniBFiUUQ4a5cKRgu8/edit?usp=drivesdk">Sweden protocol draft</a> provide more detailed examples.</p>
+<p><strong>AI clinic.</strong> After local validation, we can explore a pathway in which people with high scores are offered a cardiology consultation under the agreed clinical and research approvals. The clinician investigates the result using history, ECGs, monitoring, imaging and other tests as appropriate. The plan needs to cover:</p>
+<ul>
+<li><p>Referrals and clinician training</p>
+</li>
+<li><p>Consent and return of results</p>
+</li>
+<li><p>Responsibility for care and follow-up</p>
+</li>
+<li><p>Payment for visits and tests</p>
+</li>
+</ul>
+
+</main>
+</div>
+</body>
+</html>
