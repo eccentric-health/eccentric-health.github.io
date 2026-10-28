@@ -1,6 +1,6 @@
 The public collaboration page is [Sudden cardiac death prediction and prevention](https://eccentric-health.github.io/re-ecg-scd/).
 
-Edit `re-ecg-scd/index.html` and `re-ecg-scd/styles.css`. The HTML file owns the published protocol. The page retains the protocol and design from the personal site. Its access form is the agreement version 1.5, with team member signatures below the lead. The linked US and Sweden protocol drafts keep their existing Google Drive permissions.
+Edit `re-ecg-scd/index.html` and `re-ecg-scd/styles.css`. The HTML file owns the published protocol. The page retains the protocol and design from the personal site. Its access form is the agreement version 1.6, with team member signatures below the lead. The linked US and Sweden protocol drafts keep their existing Google Drive permissions.
 
 Only public materials belong here. Completed forms, email assent, identities, approvals, and access reports belong in the private `eccentric-health/scd-access` repository. Model files belong in the private `eccentric-health/re-ecg-scd` repository. This site collects no submissions.
 

@@ -13,6 +13,7 @@ EXPECTED = {
     'scripts/check_site.py',
     're-ecg-scd/styles.css',
     're-ecg-scd/files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
+    're-ecg-scd/files/SCD_Model_Research_Access_and_Use_Agreement_v1.6.docx',
     're-ecg-scd/files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx',
 }
 
@@ -37,7 +38,7 @@ def main():
         'https://eccentric-health.github.io/re-ecg-scd/',
         'https://github.com/eccentric-health/re-ecg-scd',
         'mailto:ziad@eccentric.health?subject=SCD%20model%20access',
-        'files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
+        'files/SCD_Model_Research_Access_and_Use_Agreement_v1.6.docx',
     )
     for url in required:
         if url not in page_text:
