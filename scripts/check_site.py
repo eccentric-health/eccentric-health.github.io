@@ -7,10 +7,13 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED = {
     '.nojekyll', 'README.md', 'AGENTS.md', 'index.html',
+    'scd-replication/index.html',
+    'scd-replication/files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx',
+    're-ecg-scd/index.html',
     'scripts/check_site.py',
-    'styles.css',
-    'files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
-    'files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx',
+    're-ecg-scd/styles.css',
+    're-ecg-scd/files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
+    're-ecg-scd/files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx',
 }
 
 
@@ -29,10 +32,10 @@ def main():
     errors = []
     if actual != EXPECTED:
         errors.append(f'Public file list changed: added {sorted(actual - EXPECTED)}, missing {sorted(EXPECTED - actual)}')
-    page_text = (ROOT / 'index.html').read_text()
+    page_text = (ROOT / 're-ecg-scd/index.html').read_text()
     required = (
         'https://eccentric-health.github.io/re-ecg-scd/',
-        'https://github.com/eccentric-health/scd-models',
+        'https://github.com/eccentric-health/re-ecg-scd',
         'mailto:ziad@eccentric.health?subject=SCD%20model%20access',
         'files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
     )
