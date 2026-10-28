@@ -3,8 +3,9 @@
 html { background: var(--paper); color: var(--ink); font: 19px/1.6 Georgia, serif; }
 body { margin: 0; }
 .shell { max-width: 1060px; margin: auto; padding: 32px 36px 90px; }
-header { display: flex; align-items: baseline; justify-content: space-between; gap: 28px; border-top: 2px solid var(--accent); padding-top: 20px; margin-bottom: 65px; font-family: system-ui, sans-serif; font-size: 14px; }
-.project { color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+header { display: flex; align-items: center; gap: 48px; max-width: 740px; margin-bottom: 65px; font-family: system-ui, sans-serif; font-size: 14px; }
+.project { color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 600; }
+.project span { display: block; }
 nav { display: flex; gap: 24px; flex-wrap: wrap; }
 main { max-width: 740px; }
 a { color: var(--accent); text-underline-offset: .17em; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
