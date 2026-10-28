@@ -5,3 +5,5 @@ Use the existing paper color, serif text, and green links. Add no images or fram
 This repository is public. Keep completed forms, identities, approvals, and model files in their separate private repositories.
 
 Run python3 scripts/check_site.py before committing. Inspect staged files, commit, and push main. Confirm the GitHub Pages deployment and live page.
+
+The public page is https://eccentric-health.github.io/re-ecg-scd/. Link model access to the private eccentric-health/scd-models repository. Keep personal analysis repositories out of the model access links. Run the site check after changing a repository name or link. Use prediction and prevention for project titles; preserve precise scientific methods.

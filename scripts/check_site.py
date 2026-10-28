@@ -9,6 +9,7 @@ EXPECTED = {
     '.nojekyll', 'README.md', 'AGENTS.md', 'index.html',
     'scripts/check_site.py',
     'styles.css',
+    'files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
     'files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx',
 }
 
@@ -28,6 +29,21 @@ def main():
     errors = []
     if actual != EXPECTED:
         errors.append(f'Public file list changed: added {sorted(actual - EXPECTED)}, missing {sorted(EXPECTED - actual)}')
+    page_text = (ROOT / 'index.html').read_text()
+    required = (
+        'https://eccentric-health.github.io/re-ecg-scd/',
+        'https://github.com/eccentric-health/scd-models',
+        'mailto:ziad@eccentric.health?subject=SCD%20model%20access',
+        'files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx',
+    )
+    for url in required:
+        if url not in page_text:
+            errors.append(f'Current page is missing its required destination: {url}')
+    for obsolete in ('https://github.com/zobermeyer/re-ecg-scd',
+                     'https://eccentric-health.github.io/scd-replication/',
+                     'mailto:ziadoo@gmail.com'):
+        if obsolete in page_text:
+            errors.append(f'Current page has an obsolete destination: {obsolete}')
     for page in ROOT.rglob('*.html'):
         if '.git' in page.relative_to(ROOT).parts:
             continue

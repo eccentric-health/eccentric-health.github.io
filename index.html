@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sudden cardiac death</title>
+<title>Sudden cardiac death prediction and prevention</title>
 <meta name="description" content="Collaboration process, data requirements, and model access for sudden cardiac death research.">
-<link rel="canonical" href="https://eccentric-health.github.io/scd-replication/">
+<link rel="canonical" href="https://eccentric-health.github.io/re-ecg-scd/">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#protocol">Skip to protocol</a>
 <div class="shell">
 <header>
-<a class="project" href="./">Sudden cardiac death</a>
-<nav aria-label="Project links"><a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx">Access form</a><a href="https://github.com/zobermeyer/re-ecg-scd">Collaboration repo</a><a href="mailto:ziad@eccentric.health?subject=SCD%20model%20access">Contact</a></nav>
+<a class="project" href="./">Sudden cardiac death prediction and prevention</a>
+<nav aria-label="Project links"><a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx">Access form</a><a href="https://github.com/eccentric-health/scd-models">Model repository</a><a href="mailto:ziad@eccentric.health?subject=SCD%20model%20access">Contact</a></nav>
 </header>
 <main id="protocol">
 <p>We want to learn whether our electrocardiogram (ECG) model identifies people at higher risk of sudden cardiac death (SCD) in new populations, how it predicts other outcomes related to SCD, and what these predictions can teach us about the underlying anatomy and physiology of SCD.</p>
-<p>This page covers data preparation, model access, computing needs, ethics approvals, and possible prospective studies. To request model access, <a href="mailto:ziad@eccentric.health?subject=SCD%20model%20access">send us</a> the <a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx">access form</a> (you can also just send us an email with those terms if you prefer), along with your GitHub username. We use the <a href="https://github.com/zobermeyer/re-ecg-scd">collaboration repo</a> for shared code and approved summary results.</p>
+<p>This page covers data preparation, model access, computing needs, ethics approvals, and possible prospective studies. To request model access, <a href="mailto:ziad@eccentric.health?subject=SCD%20model%20access">send us</a> the <a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx">access form</a> (you can also just send us an email with those terms if you prefer), along with your GitHub username. The <a href="https://github.com/eccentric-health/scd-models">model repository</a> is private. We grant read access after reviewing your agreement and GitHub username.</p>
 <h2>1 Data: sample and outcomes</h2>
 <p><strong>Sample.</strong> It would be nice to get an approximate sense of the sample you have available:</p>
 <ul>
@@ -66,8 +66,8 @@
 <p>ECGs can be in any format - XML, EDF, CSV, PDF or scans. If we need to do conversion, we need the recording system, lead labels, units, recording length and whether the leads were recorded at the same time. It’s pretty easy to convert the ECGs into the model’s input format and prepare a linked clinical CSV with clearly explained columns.</p>
 <p>The model takes as input a numerical array with <strong>12 rows × 5,000 samples</strong>: ten seconds at <strong>500 measurements per second (500 Hz)</strong>, in <strong>millivolts</strong>. The lead order is I, II, III, aVR, aVL, aVF, V1–V6. It uses waveforms alone; the <a href="https://github.com/alexmschubert/ECG-SCD/blob/main/src/ekg_scd/datasets.py">reference reader</a> loads NumPy <code>.npy</code> files. Conversion needs to account for sampling rate, units, lead order and any recorded −aVR sign. For PDFs, scans or short recordings, we’ll check which signals and time segments are present and assess any digitization or reconstruction needed. If needed, for shorter recordings (e.g., 2.5 seconds per lead) we can retrain our model or use median beats.&#x20;</p>
 <h2>3 Model</h2>
-<p><strong>Access.</strong> It’s easy to give your team access to the model. The only thing we need is a record of who is using the model and a signed form or written assent to responsible research use. Note this doesn’t need to be an institutional agreement - we’re happy with you as an individual committing to noncommercial use, keeping the model secure, and limits on sharing and reuse. The <a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.4.docx">blank research agreement</a> is the easiest way to do this, but whatever you’re comfortable with (e.g., an email) is also fine. Each person using the model agrees to these terms. Once we’ve filed your completed form or email assent to these terms and have your GitHub usernames, we’ll provide full model access through a private Git repository.</p>
-<p>We’ll use <a href="https://github.com/zobermeyer/re-ecg-scd">re-ecg-scd</a> for shared code and approved summary results. Model-guided recruitment, return of results or clinical use requires separate written authorization.</p>
+<p><strong>Access.</strong> It’s easy to give your team access to the model. The only thing we need is a record of who is using the model and a signed form or written assent to responsible research use. Note this doesn’t need to be an institutional agreement - we’re happy with you as an individual committing to noncommercial use, keeping the model secure, and limits on sharing and reuse. The <a href="files/SCD_Model_Research_Access_and_Use_Agreement_v1.5.docx">blank research agreement</a> is the easiest way to do this, but whatever you’re comfortable with (e.g., an email) is also fine. Each person using the model agrees to these terms. Once we’ve filed your completed form or email assent to these terms and have your GitHub usernames, we’ll provide read access to the private model repository.</p>
+<p>We’ll use the private <a href="https://github.com/eccentric-health/scd-models">model repository</a> for model files and execution code. We’ll share only approved summary results outside your data environment. Model-guided recruitment, return of results or clinical use requires separate written authorization.</p>
 <p><strong>Computing.</strong> We’d prefer if the ECGs never leave your health system infrastructure: it’s much easier to get the model in than to get data out. So we’d like to know anything you can share about your computing environment - where the ECGs live or where they can be placed within the health system infrastructure: CPU or GPU, memory and storage, and whether you’ll use local or cloud computing. Options include your existing workstation or server, an institution-approved virtual machine, or an approved cloud environment. We’ll test a small batch to check that the model runs correctly and establish memory needs and running time.</p>
 <p><strong>Checks.</strong> The first step is to make sure the model is reading the ECGs correctly by performing a few checks:</p>
 <ul>
@@ -92,7 +92,7 @@
 </li>
 </ul>
 <p>The <a href="https://docs.google.com/document/d/1ZXXfyvIsWazKcvVFrwcbi3JxXN-NvpyChcIMkyNJTAM/edit?usp=drivesdk">US protocol draft</a> and <a href="https://docs.google.com/document/d/1M_iwCxzAgqjB4-tpM0ZNYvhIjKniBFiUUQ4a5cKRgu8/edit?usp=drivesdk">Sweden protocol draft</a> provide more detailed examples.</p>
-<p><strong>AI clinic.</strong> After local validation, we can explore a pathway in which people with high scores are offered a cardiology consultation under the agreed clinical and research approvals. The clinician investigates the result using history, ECGs, monitoring, imaging and other tests as appropriate. The plan needs to cover:</p>
+<p><strong>AI clinic.</strong> After we assess the model in local data, we can explore a pathway in which people with high scores are offered a cardiology consultation under the agreed clinical and research approvals. The clinician investigates the result using history, ECGs, monitoring, imaging and other tests as appropriate. The plan needs to cover:</p>
 <ul>
 <li><p>Referrals and clinician training</p>
 </li>
